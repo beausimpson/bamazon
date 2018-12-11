@@ -5,6 +5,7 @@ var inquirer = require("inquirer");
 // mySql module
 var mysql = require("mysql");
 
+// console.table module
 require("console.table");
 
 
@@ -45,6 +46,7 @@ function startBamazon() {
                     type: "input",
                     message: "Choose by ID, which product you would like to buy:",
                     name: "productId",
+                    // validates if input was a number  
                     validate: function (value) {
                         if (isNaN(value) === false) {
                             return true;
@@ -56,6 +58,7 @@ function startBamazon() {
                     type: "input",
                     message: "How many many units would you like to buy?",
                     name: "unitsToBuy",
+                    // validates if input was a number
                     validate: function (value) {
                         if (isNaN(value) === false) {
                             return true;
@@ -111,6 +114,7 @@ function startBamazon() {
 
 };
 
+// function ask if customer would like to exit or continue
 function stopConnection() {
     inquirer.prompt([
         {
