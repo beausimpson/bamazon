@@ -27,7 +27,6 @@ connection.connect(function (err) {
     if (err) throw err;
     console.log("\n------------- Bamazon: Manager Interface -------------\n");
     managerStart();
-    // connection.end();
 });
 
 
@@ -73,11 +72,11 @@ function listProducts() {
 // lists products with inventory less than 5, if there are any
 function lowInventory() {
     connection.query("SELECT product_name FROM products WHERE stock_quantity < 5", function (err, inventoryResponse) {
-            // console.log(inventoryResponse[0].product_name)
+        // console.log(inventoryResponse[0].product_name)
         if (inventoryResponse[0] === undefined) {
             console.log("\n------------- No items with low inventory -------------\n")
             stopConnection();
-            
+
         } else {
             console.log("\n------------- Items with low inventory -------------\n")
             console.table(inventoryResponse)
@@ -86,7 +85,62 @@ function lowInventory() {
     })
 };
 
-// function ask if manager would like to exit or continue
+// adds inventory to selected product
+function addInventory() {
+
+    connection.query("SELECT product_name FROM products", function (err, productResponse) {
+
+        products = []
+        productResponse.forEach((product, index) => {
+            products.push(product.product_name);
+        });
+
+        inquirer
+            .prompt([
+                {
+                    type: "list",
+                    message: "Which item would you like to add inventory:",
+                    choices: products,
+                    name: "productName",
+                    pageSize: products.length
+                },
+                {
+                    type: "input",
+                    message: "How many would you like to add to inventory?",
+                    name: "addQuantity",
+                    validate: function (value) {
+                        if (isNaN(value) === false) {
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+            ]).then(function (addResponse) {
+
+                connection.query("SELECT stock_quantity FROM products WHERE ?", { product_name: addResponse.productName }, function (err, itemStock) {
+
+                    var quantityAdd = parseInt(addResponse.addQuantity) + itemStock[0].stock_quantity;
+
+                    connection.query("UPDATE products SET ? WHERE ?", [
+                        {
+                            stock_quantity: quantityAdd
+                        },
+                        {
+                            product_name: addResponse.productName
+                        }
+                    ],
+                        function (err, inventoryUpdate) {
+                            console.log(addResponse.productName + "'s inventory has been updated!");
+                            stopConnection();
+                        })
+                })
+
+            });
+    })
+
+}
+
+// function asks if manager would like to exit or continue
 function stopConnection() {
     inquirer.prompt([
         {
