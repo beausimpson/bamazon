@@ -20,6 +20,8 @@ var connection = mysql.createConnection({
     user: "root",
 
     // Enter your mysql password
+    // Beau Simpson's listed in pw.txt
+    // pw.txt is in .gitignore so not uploaded
     password: "********",
     database: "bamazon"
 });
