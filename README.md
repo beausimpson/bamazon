@@ -58,6 +58,7 @@ The Terminal will display and ask manager to:
     - Add New Product
 
 *Example of terminal display:*
+
 ![Image of bamazon manager list of options example](https://s3.amazonaws.com/simpson/markdown_images/bamazon/bamazon_manager_one.jpg)
 
 **View Products for Sale**
