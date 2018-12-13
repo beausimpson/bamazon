@@ -24,6 +24,7 @@
 **Enter `node bamazonCustomer.js` to run program**
 
 Once entered, the screen will display:
+
 ![Image of bamazon customer first example](https://s3.amazonaws.com/simpson/markdown_images/bamazon/bamazon_customer_one.jpg)
 
 Once Id has been selected, it will ask how many units to be purchased:
