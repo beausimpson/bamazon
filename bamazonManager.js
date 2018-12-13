@@ -29,7 +29,7 @@ connection.connect(function (err) {
     managerStart();
 });
 
-
+// starts bamazon manager functions 
 function managerStart() {
     inquirer
         .prompt([
@@ -130,7 +130,7 @@ function addInventory() {
                         }
                     ],
                         function (err, inventoryUpdate) {
-                            console.log(addResponse.productName + "'s inventory has been updated!");
+                            console.log("\n------------- " + addResponse.productName + "'s inventory has been updated! -------------\n");
                             stopConnection();
                         })
                 })
@@ -138,7 +138,49 @@ function addInventory() {
             });
     })
 
-}
+};
+
+// function adds new product to inventory
+function addProduct() {
+
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "Name of Item to Add to Inventory:",
+                name: "name"
+            },
+            {
+                type: "input",
+                message: "What Department should the Item be Listed?",
+                name: "department"
+            },
+            {
+                type: "input",
+                message: "What is the Price of the Item?",
+                name: "price"
+            },
+            {
+                type: "input",
+                message: "What is the starting stock quantity?",
+                name: "stockQuantity"
+            }
+        ]).then(function (itemResponse) {
+
+            connection.query("INSERT INTO products SET ?",
+                {
+                    product_name: itemResponse.name,
+                    department_name: itemResponse.department,
+                    price: itemResponse.price,
+                    stock_quantity: itemResponse.stockQuantity
+
+                }, function (err, res) {
+                    if (err) throw err;
+                    console.log("\n------------- " + itemResponse.name + " has been added to inventory -------------\n")
+                    stopConnection();
+                });
+        })
+};
 
 // function asks if manager would like to exit or continue
 function stopConnection() {

@@ -82,7 +82,7 @@ function startBamazon() {
                             var buyUnits = parseInt(itemResponse.unitsToBuy);
                             var stockQuantity = idResponse[0].stock_quantity;
                             if (buyUnits > stockQuantity) {
-                                console.log("  Insufficient quantity!  ")
+                                console.log("\n------------- Insufficient quantity! -------------\n")
                                 stopConnection();
                             } else {
                                 var updatedQuantity = stockQuantity - buyUnits;
@@ -97,7 +97,7 @@ function startBamazon() {
                                 ],
                                     function (err, quantityUpdate) {
                                         connection.query("SELECT price FROM products WHERE ?", { item_id: idNum }, function (err, itemPrice) {
-                                            console.log("  You owe $" + itemPrice[0].price * buyUnits)
+                                            console.log("\n------------- You owe $" + itemPrice[0].price * buyUnits + " -------------\n")
                                             stopConnection();
                                         })
                                     }
