@@ -19,8 +19,8 @@ var connection = mysql.createConnection({
     // Your username
     user: "root",
 
-    // Your password
-    password: "13bs13bs!!!",
+    // Enter your mysql password
+    password: "********",
     database: "bamazon"
 });
 
@@ -97,6 +97,7 @@ function startBamazon() {
                                 ],
                                     function (err, quantityUpdate) {
                                         connection.query("SELECT price FROM products WHERE ?", { item_id: idNum }, function (err, itemPrice) {
+                                            console.log("\n------------- You have purchased " + buyUnits + " -------------\n")
                                             console.log("\n------------- You owe $" + itemPrice[0].price * buyUnits + " -------------\n")
                                             stopConnection();
                                         })
